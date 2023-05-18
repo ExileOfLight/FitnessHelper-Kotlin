@@ -13,6 +13,11 @@
         android:theme="@style/Theme.Fitnessfinal"
         tools:targetApi="31">
         <activity
+            android:name=".loading_activity"
+            android:exported="false"
+            android:label="@string/title_activity_loading"
+            android:theme="@style/Theme.Fitnessfinal" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

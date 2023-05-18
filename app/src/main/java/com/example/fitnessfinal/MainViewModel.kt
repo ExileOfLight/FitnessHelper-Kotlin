@@ -1,31 +1,36 @@
 package com.example.fitnessfinal
 
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.*
 import com.example.fitnessfinal.db.User
+import com.example.fitnessfinal.db.UserDataBase
 import kotlinx.coroutines.launch
 import kotlin.math.round
 
+
 class MainViewModel() : ViewModel() {
-    private lateinit var userViewModel: UserViewModel
+
 
     //TODO: Make defaults (using Room)
-    val editTextAge = MutableLiveData<String>("")
-    val editTextHeight = MutableLiveData<String>("")
-    val editTextWeight = MutableLiveData<String>("")
+    val editTextAge = MutableLiveData<String>("0")
+    val editTextHeight = MutableLiveData<String>("0")
+    val editTextWeight = MutableLiveData<String>("0")
 
     private val _isMale = MutableLiveData<Boolean>(true)
     val isMale : LiveData<Boolean>
         get() = _isMale
-    fun setisMale (male: Boolean){
-        _isMale.value = male
+    fun setisMale (isMale: Boolean){
+        _isMale.value = isMale
     }
-    private val _deficitOption = MutableLiveData<Double>(0.0)
-    val deficitOption : LiveData<Double>
+
+    private val _deficitOption = MutableLiveData<Double>(1000.0)
+    val deficitOption: LiveData<Double>
         get() = _deficitOption
-    fun setDeficit (newValue: Double){
-        _deficitOption.value = newValue
+    fun setDeficit(deficit: Double){
+        _deficitOption.value = deficit
     }
 
 
@@ -41,7 +46,9 @@ class MainViewModel() : ViewModel() {
     private val _showCals = MutableLiveData<String>("4")
     val showCals: LiveData<String> = _showCals
     val macros = MutableLiveData<Array<String>>(arrayOf("0","0","0","0"))
+
     fun updateMacros():Unit{
+        Log.e("DEBUG", "UPDATED")
         val newMacros = calculate_macros(editTextAge.value!!.toInt(),
             editTextHeight.value!!.toInt(),
             editTextWeight.value!!.toInt(),
@@ -75,7 +82,7 @@ class MainViewModel() : ViewModel() {
         val carbs = round(_calories * carb_perct / 4).toInt()
         return arrayOf(calories.toString(), proteins.toString(), fats.toString(), carbs.toString())
     }
-    fun insertDatatoDB(){
+    fun insertDatatoDB(userViewModel: UserViewModel){
         val age = editTextAge.value!!
         val height = editTextHeight.value!!
         val weight = editTextWeight.value!!
@@ -86,7 +93,7 @@ class MainViewModel() : ViewModel() {
             userViewModel.upsertUser(user)
         }
     }
-    fun loadDataFromDB(owner:LifecycleOwner) {
+    fun loadDataFromDB(owner:LifecycleOwner, userViewModel: UserViewModel) {
         userViewModel.users.observe(owner) { userList ->
             if (userList != null && userList.isNotEmpty()) {
                 //Log.e("DEBUG", "WWWWWWWWWWWWWWWWWWWWW")

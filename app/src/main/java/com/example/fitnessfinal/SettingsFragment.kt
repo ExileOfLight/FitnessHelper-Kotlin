@@ -1,7 +1,6 @@
 package com.example.fitnessfinal
 
 import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -21,16 +20,19 @@ import com.example.fitnessfinal.db.User
 import com.example.fitnessfinal.db.UserDataBase
 import kotlinx.coroutines.launch
 
-
+const val deficitCONST = 300.0
+const val upkeepCONST = 0.0
+const val bulkCONST = -300.0
 class SettingsFragment : Fragment() {
     private val sharedViewModel: MainViewModel by activityViewModels()
     private lateinit var binding: FragmentSettingsBinding
     private lateinit var userViewModel: UserViewModel
-    private lateinit var sf: SharedPreferences
-    private lateinit var editor: SharedPreferences.Editor
     //private var current_user_id: Int = 0
     private var deficitData: Double = 0.0
     private var genderData: String = "Male"
+    private var radioobserverAvailable = true
+
+
 
 
     override fun onCreateView(
@@ -53,73 +55,72 @@ class SettingsFragment : Fragment() {
         val factory = UserViewModelFactory(dao)
         userViewModel = ViewModelProvider(this, factory)[UserViewModel::class.java]
 
-        sharedViewModel.editTextAge.observe(viewLifecycleOwner){newValue ->
-            binding.edittextAge.setText(newValue)
-        }
-        sharedViewModel.editTextHeight.observe(viewLifecycleOwner){newValue ->
-            binding.edittextHeight.setText(newValue)
-        }
-        sharedViewModel.editTextWeight.observe(viewLifecycleOwner){newValue ->
-            binding.edittextWeight.setText(newValue)
-        }
-        binding.apply{
-            genderAsk.setOnCheckedChangeListener { _, checkedId ->
-                when (checkedId) {
-                    R.id.radio_button_1 -> {
-                        genderData = "Male"
-                        sharedViewModel.setisMale(true)
-                    }
-                    R.id.radio_button_2 -> {
-                        genderData = "Female"
-                        sharedViewModel.setisMale(false)
-                    }
-                }
-                sharedViewModel.updateMacros()
+        val isMale = sharedViewModel.isMale.value!!
+        val deficitData = sharedViewModel.deficitOption.value!!
+        binding.radioButtonMale.isChecked = isMale
+        binding.radioButtonMale.isChecked = !isMale
+        genderData = if (isMale) "Male" else "Female"
+        when (deficitData) {
+            deficitCONST -> {
+                binding.radioButtonDeficit.isChecked = true
             }
-            deficitAsk.setOnCheckedChangeListener {_, checkedId ->
-                when (checkedId) {
-                    R.id.rectangle_button_1 -> {
-                        sharedViewModel.setDeficit(300.0)
-                    }
-                    R.id.rectangle_button_2 -> {
-                        sharedViewModel.setDeficit(0.0)
-                    }
-                    R.id.rectangle_button_3 -> {
-                        sharedViewModel.setDeficit(-300.0)
-                    }
-                }
-                sharedViewModel.updateMacros()
-            }
-            btnSubmit.setOnClickListener {
-                val age = binding.edittextAge.text.toString()
-                val height = binding.edittextHeight.text.toString()
-                val weight = binding.edittextWeight.text.toString()
 
-                if (inputCheck(age,height,weight,genderData)){
-                    sharedViewModel.updateMacros()
-                    sharedViewModel.insertDatatoDB()
-                    Toast.makeText(requireContext(), "Profile updated", Toast.LENGTH_LONG).show()
-                }else{
-                    Toast.makeText(requireContext(), "Please fill out the fields", Toast.LENGTH_LONG).show()
+            upkeepCONST -> {
+                binding.radioButtonUpkeep.isChecked = true
+            }
+
+            bulkCONST -> {
+                binding.radioButtonUpkeep.isChecked = true
+            }
+        }
+
+        binding.genderAsk.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.radio_button_male -> {
+                    genderData = "Male"
+                    sharedViewModel.setisMale(true)
                 }
 
+                R.id.radio_button_female -> {
+                    genderData = "Female"
+                    sharedViewModel.setisMale(false)
+                }
             }
+        }
+        binding.deficitAsk.setOnCheckedChangeListener {_, checkedId ->
+            when (checkedId) {
+                R.id.radio_button_deficit -> {
+                    sharedViewModel.setDeficit(deficitCONST)
+                }
+
+                R.id.radio_button_upkeep -> {
+                    sharedViewModel.setDeficit(upkeepCONST)
+                }
+
+                R.id.radio_button_bulk -> {
+                    sharedViewModel.setDeficit(bulkCONST)
+                }
+            }
+        }
+        binding.btnSubmit.setOnClickListener {
+            val age = binding.edittextAge.text.toString()
+            val height = binding.edittextHeight.text.toString()
+            val weight = binding.edittextWeight.text.toString()
+
+            if (inputCheck(age,height,weight,genderData)){
+                sharedViewModel.updateMacros()
+                sharedViewModel.insertDatatoDB(userViewModel)
+                Toast.makeText(requireContext(), "Profile updated", Toast.LENGTH_LONG).show()
+            }else{
+                Toast.makeText(requireContext(), "Please fill out the fields", Toast.LENGTH_LONG).show()
+            }
+
         }
 
 
     }
+//
 
-    override fun onPause() {
-        super.onPause()
-        editor.apply(){
-            putString("sf_currentUser", 0.toString())
-        }
-    }
-    /*override fun onResume() {
-        super.onResume()
-        sharedViewModel.loadDataFromDB(viewLifecycleOwner)
-        sharedViewModel.updateMacros()
-    }*/
     private fun insertDatatoDB(){
         binding.apply {
             val age = edittextAge.text.toString()
