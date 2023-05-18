@@ -141,24 +141,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Deficit"
-                android:backgroundTint="@color/white"
-                android:checked="@{viewModel.deficitOption == 300.0}" />
+                android:backgroundTint="@color/white" />
 
             <RadioButton
                 android:id="@+id/radio_button_upkeep"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Upkeep"
-                android:backgroundTint="@color/white"
-                android:checked="@{viewModel.deficitOption == 0.0}"/>
+                android:backgroundTint="@color/white"/>
 
             <RadioButton
                 android:id="@+id/radio_button_bulk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bulk"
-                android:backgroundTint="@color/white"
-                android:checked="@{viewModel.deficitOption == -300.0}"/>
+                android:backgroundTint="@color/white"/>
 
         </RadioGroup>
 

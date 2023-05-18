@@ -61,7 +61,7 @@ class MainViewModel() : ViewModel() {
         height: Int,
         weight: Int,
         male: Boolean,
-        stress_factor: Double = 1.0,
+        stress_factor: Double,
         diet_plan: Array<Double>
     )
             : Array<String> {
@@ -76,7 +76,7 @@ class MainViewModel() : ViewModel() {
             -161 + (10 * weight) + (6.25 * height) - (5 * age)
         }
         _calories *= stress_factor
-        val calories: Int = (round(_calories) - deficit).toInt()
+        val calories: Int = round(_calories * deficit).toInt()
         val proteins = round(_calories * protein_perct / 4).toInt()
         val fats = round(_calories * fat_perct / 8).toInt()
         val carbs = round(_calories * carb_perct / 4).toInt()

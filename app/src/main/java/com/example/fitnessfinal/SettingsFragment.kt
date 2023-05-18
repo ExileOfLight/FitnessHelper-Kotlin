@@ -20,9 +20,9 @@ import com.example.fitnessfinal.db.User
 import com.example.fitnessfinal.db.UserDataBase
 import kotlinx.coroutines.launch
 
-const val deficitCONST = 300.0
-const val upkeepCONST = 0.0
-const val bulkCONST = -300.0
+const val deficitCONST = 0.8
+const val upkeepCONST = 1.0
+const val bulkCONST = 1.2
 class SettingsFragment : Fragment() {
     private val sharedViewModel: MainViewModel by activityViewModels()
     private lateinit var binding: FragmentSettingsBinding
@@ -58,18 +58,17 @@ class SettingsFragment : Fragment() {
         val isMale = sharedViewModel.isMale.value!!
         val deficitData = sharedViewModel.deficitOption.value!!
         binding.radioButtonMale.isChecked = isMale
-        binding.radioButtonMale.isChecked = !isMale
+        binding.radioButtonFemale.isChecked = !isMale
         genderData = if (isMale) "Male" else "Female"
         when (deficitData) {
             deficitCONST -> {
                 binding.radioButtonDeficit.isChecked = true
             }
 
-            upkeepCONST -> {
+            bulkCONST -> {
                 binding.radioButtonUpkeep.isChecked = true
             }
-
-            bulkCONST -> {
+            else -> {
                 binding.radioButtonUpkeep.isChecked = true
             }
         }

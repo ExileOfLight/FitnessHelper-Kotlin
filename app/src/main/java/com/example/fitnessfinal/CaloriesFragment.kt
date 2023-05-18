@@ -14,8 +14,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.fitnessfinal.databinding.FragmentCaloriesBinding
 import com.example.fitnessfinal.databinding.FragmentSettingsBinding
 import com.example.fitnessfinal.db.UserDataBase
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -25,6 +28,7 @@ class CaloriesFragment : Fragment() {
     private lateinit var binding: FragmentCaloriesBinding
     private val sharedViewModel: MainViewModel by activityViewModels()
     private lateinit var userViewModel: UserViewModel
+    private lateinit var updateJob: Job
     private var dbNotLoaded = true
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,18 +54,23 @@ class CaloriesFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         if (dbNotLoaded) {
-
-            sharedViewModel.loadDataFromDB(viewLifecycleOwner, userViewModel)
-            GlobalScope.launch {
-                withContext(Dispatchers.Main) {
+            sharedViewModel.loadDataFromDB(this, userViewModel)
+            //sharedViewModel.loadDataFromDB(viewLifecycleOwner, userViewModel)
+            updateJob = CoroutineScope(Dispatchers.Main).launch {
+                    delay(500)
                     sharedViewModel.updateMacros()
-                }
+                    dbNotLoaded = false
             }
-            dbNotLoaded = false
+
         } else sharedViewModel.updateMacros()
 
 
     }
-
+    override fun onDestroy() {
+        super.onDestroy()
+        if (updateJob.isActive) {
+            updateJob.cancel()
+        }
+    }
 
 }

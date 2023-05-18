@@ -7,6 +7,7 @@ import android.os.Handler
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
@@ -19,19 +20,25 @@ import com.example.fitnessfinal.db.UserDataBase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedViewModel: MainViewModel
+    private lateinit var userViewModel: UserViewModel
     private lateinit var loadingJob: Job
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         sharedViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        val dao = UserDataBase.getInstance(this).userDao()
+        val factory = UserViewModelFactory(dao)
+        userViewModel = ViewModelProvider(this, factory)[UserViewModel::class.java]
         binding.viewModel = sharedViewModel
         binding.lifecycleOwner = this
 
@@ -47,17 +54,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.bottomNavigation.setupWithNavController(navController)
 
-//        val loadingFragment = supportFragmentManager.findFragmentById(R.id.loading_fragment)
-//        val loadingLayout = loadingFragment?.view
-//        loadingLayout?.visibility = View.VISIBLE
-//        binding.bottomNavigation.visibility = View.GONE
-//
-//        loadingJob = CoroutineScope(Dispatchers.Main).launch {
-//            delay(10000) // Set the loading screen duration in milliseconds
-//
-//        }
-//        loadingLayout?.visibility = View.GONE
-//        binding.bottomNavigation.visibility = View.VISIBLE
 
     }
     override fun onDestroy() {
