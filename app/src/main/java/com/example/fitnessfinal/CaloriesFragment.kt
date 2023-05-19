@@ -1,33 +1,27 @@
 package com.example.fitnessfinal
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.fitnessfinal.databinding.FragmentCaloriesBinding
-import com.example.fitnessfinal.databinding.FragmentSettingsBinding
-import com.example.fitnessfinal.db.UserDataBase
+import com.example.fitnessfinal.db.FitnessDataBase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 class CaloriesFragment : Fragment() {
 
     private lateinit var binding: FragmentCaloriesBinding
     private val sharedViewModel: MainViewModel by activityViewModels()
-    private lateinit var userViewModel: UserViewModel
+    private lateinit var fitnessViewModel: FitnessViewModel
     private lateinit var updateJob: Job
     private var dbNotLoaded = true
     override fun onCreateView(
@@ -45,19 +39,19 @@ class CaloriesFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val dao = UserDataBase.getInstance(requireContext()).userDao()
-        val factory = UserViewModelFactory(dao)
-        userViewModel = ViewModelProvider(this, factory)[UserViewModel::class.java]
+        val dao = FitnessDataBase.getInstance(requireContext()).userDao()
+        val factory = FitnessViewModelFactory(dao)
+        fitnessViewModel = ViewModelProvider(this, factory)[FitnessViewModel::class.java]
 
     }
 
     override fun onResume() {
         super.onResume()
         if (dbNotLoaded) {
-            sharedViewModel.loadDataFromDB(this, userViewModel)
+            sharedViewModel.loadDataFromDB(this, fitnessViewModel)
             //sharedViewModel.loadDataFromDB(viewLifecycleOwner, userViewModel)
             updateJob = CoroutineScope(Dispatchers.Main).launch {
-                    delay(500)
+                    delay(50)
                     sharedViewModel.updateMacros()
                     dbNotLoaded = false
             }

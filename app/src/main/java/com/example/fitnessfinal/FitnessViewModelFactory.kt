@@ -2,12 +2,12 @@ package com.example.fitnessfinal
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.fitnessfinal.db.UserDao
+import com.example.fitnessfinal.db.FitnessDao
 
-class UserViewModelFactory(private val dao: UserDao):ViewModelProvider.Factory {
+class FitnessViewModelFactory(private val dao: FitnessDao):ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(UserViewModel::class.java)) {
-            return UserViewModel(dao) as T
+        if (modelClass.isAssignableFrom(FitnessViewModel::class.java)) {
+            return FitnessViewModel(dao) as T
         }
         throw IllegalArgumentException("Unknown View Model Class ")
     }

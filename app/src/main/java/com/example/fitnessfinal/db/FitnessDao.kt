@@ -2,17 +2,25 @@ package com.example.fitnessfinal.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface UserDao {
+interface FitnessDao {
     @Upsert
     suspend fun upsertUser(user: User)
+
+    @Upsert
+    suspend fun upsertMeal(meal: Meal)
 
     @Delete
     suspend fun deleteUser(user: User)
 
+    @Delete
+    suspend fun deleteMeal(meal: Meal)
+
     @Query("SELECT * FROM user_dt")
     fun getAllUsers(): LiveData<List<User>>
+
+    @Query("SELECT * FROM meal_dt")
+    fun getAllMeals(): LiveData<List<Meal>>
 
 }

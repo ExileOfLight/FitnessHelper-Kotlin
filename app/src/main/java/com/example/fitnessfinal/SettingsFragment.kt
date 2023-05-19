@@ -1,23 +1,19 @@
 package com.example.fitnessfinal
 
-import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import com.example.fitnessfinal.databinding.FragmentSettingsBinding
 import com.example.fitnessfinal.db.User
-import com.example.fitnessfinal.db.UserDataBase
+import com.example.fitnessfinal.db.FitnessDataBase
 import kotlinx.coroutines.launch
 
 const val deficitCONST = 0.8
@@ -26,7 +22,7 @@ const val bulkCONST = 1.2
 class SettingsFragment : Fragment() {
     private val sharedViewModel: MainViewModel by activityViewModels()
     private lateinit var binding: FragmentSettingsBinding
-    private lateinit var userViewModel: UserViewModel
+    private lateinit var fitnessViewModel: FitnessViewModel
     //private var current_user_id: Int = 0
     private var deficitData: Double = 0.0
     private var genderData: String = "Male"
@@ -51,9 +47,9 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val dao = UserDataBase.getInstance(requireContext()).userDao()
-        val factory = UserViewModelFactory(dao)
-        userViewModel = ViewModelProvider(this, factory)[UserViewModel::class.java]
+        val dao = FitnessDataBase.getInstance(requireContext()).userDao()
+        val factory = FitnessViewModelFactory(dao)
+        fitnessViewModel = ViewModelProvider(this, factory)[FitnessViewModel::class.java]
 
         val isMale = sharedViewModel.isMale.value!!
         val deficitData = sharedViewModel.deficitOption.value!!
@@ -108,7 +104,7 @@ class SettingsFragment : Fragment() {
 
             if (inputCheck(age,height,weight,genderData)){
                 sharedViewModel.updateMacros()
-                sharedViewModel.insertDatatoDB(userViewModel)
+                sharedViewModel.insertDatatoDB(fitnessViewModel)
                 Toast.makeText(requireContext(), "Profile updated", Toast.LENGTH_LONG).show()
             }else{
                 Toast.makeText(requireContext(), "Please fill out the fields", Toast.LENGTH_LONG).show()
@@ -128,7 +124,7 @@ class SettingsFragment : Fragment() {
             if (inputCheck(age,height,weight,genderData)){
                 val user = User(1, age.toInt(), height.toInt(), weight.toInt(), genderData, deficitData)
                 lifecycleScope.launch {
-                    userViewModel.upsertUser(user)
+                    fitnessViewModel.upsertUser(user)
                 }
 
                 Toast.makeText(requireContext(), "Profile updated", Toast.LENGTH_LONG).show()

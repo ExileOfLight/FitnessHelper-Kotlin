@@ -12,4 +12,7 @@
         android:id="@+id/menu_item_settings"
         android:title="Menu Settings"
         android:icon="@drawable/ic_baseline_settings_accessibility_24" />
+    <item
+        android:id="@+id/menuitem_add_food"
+        android:title="Add food"/>
 </menu>

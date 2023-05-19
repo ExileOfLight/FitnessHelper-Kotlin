@@ -1,12 +1,9 @@
 package com.example.fitnessfinal
 
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.*
 import com.example.fitnessfinal.db.User
-import com.example.fitnessfinal.db.UserDataBase
 import kotlinx.coroutines.launch
 import kotlin.math.round
 
@@ -82,7 +79,7 @@ class MainViewModel() : ViewModel() {
         val carbs = round(_calories * carb_perct / 4).toInt()
         return arrayOf(calories.toString(), proteins.toString(), fats.toString(), carbs.toString())
     }
-    fun insertDatatoDB(userViewModel: UserViewModel){
+    fun insertDatatoDB(fitnessViewModel: FitnessViewModel){
         val age = editTextAge.value!!
         val height = editTextHeight.value!!
         val weight = editTextWeight.value!!
@@ -90,11 +87,11 @@ class MainViewModel() : ViewModel() {
         val deficit = deficitOption.value!!
         val user = User(1, age.toInt(), height.toInt(), weight.toInt(), gender, deficit)
         viewModelScope.launch {
-            userViewModel.upsertUser(user)
+            fitnessViewModel.upsertUser(user)
         }
     }
-    fun loadDataFromDB(owner:LifecycleOwner, userViewModel: UserViewModel) {
-        userViewModel.users.observe(owner) { userList ->
+    fun loadDataFromDB(owner:LifecycleOwner, fitnessViewModel: FitnessViewModel) {
+        fitnessViewModel.users.observe(owner) { userList ->
             if (userList != null && userList.isNotEmpty()) {
                 //Log.e("DEBUG", "WWWWWWWWWWWWWWWWWWWWW")
                 val currentUser = userList[0]
