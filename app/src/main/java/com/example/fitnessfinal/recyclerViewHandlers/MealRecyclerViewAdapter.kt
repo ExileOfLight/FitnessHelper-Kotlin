@@ -26,7 +26,7 @@ class MealRecyclerViewAdapter:RecyclerView.Adapter<MealRecyclerViewAdapter.MealV
         return MealViewHolder(binding)
     }
 
-
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
         val currentItem = mealList[position]
         binding.apply {
