@@ -9,12 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.fitnessfinal.databinding.ActivityMainBinding
 import com.example.fitnessfinal.db.FitnessDataBase
 import com.example.fitnessfinal.db.FitnessRepository
+import com.example.fitnessfinal.db.Meal
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -99,12 +101,19 @@ class MainActivity : AppCompatActivity() {
                 Log.d("AppLog", "MainActivity: ${DateChangedBroadcastReceiver.toString(previousDate)} -> ${DateChangedBroadcastReceiver.toString(newDate)}")
                 curDate = newDate.clone() as Calendar
                 //handle date change
-//                val everyMeal = fitnessViewModel.meals.value
-//                everyMeal?.forEach{ meal ->
-//                    val _meal = meal.copy()
-//                    _meal.amount = 0.0
-//                    fitnessViewModel.upsertMeal()
-//                }
+                val everyMeal = fitnessViewModel.meals.value
+                everyMeal?.forEach{ meal ->
+                    val id = meal.id
+                    val name = meal.foodName
+                    val cals = meal.cals
+                    val proteins = meal.proteins
+                    val fats = meal.fats
+                    val carbs = meal.carbs
+                    lifecycleScope.launch {
+                        fitnessViewModel.upsertMeal(Meal(id,name,cals,proteins, fats,carbs,0.0))
+                    }
+
+                }
             }
         }.registerOnResume(this, curDate)
     }
