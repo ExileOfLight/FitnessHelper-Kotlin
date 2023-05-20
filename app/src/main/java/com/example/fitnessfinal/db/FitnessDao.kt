@@ -17,6 +17,9 @@ interface FitnessDao {
     @Delete
     suspend fun deleteMeal(meal: Meal)
 
+    @Query("DELETE FROM meal_dt WHERE id = :mealId")
+    suspend fun deleteMealById(mealId: Long)
+
     @Query("SELECT * FROM user_dt")
     fun getAllUsers(): LiveData<List<User>>
 

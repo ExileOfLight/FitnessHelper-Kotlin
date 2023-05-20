@@ -2,14 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".AddFragment">
+    tools:context=".UpdateFragment">
 
     <data>
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/addFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="12dp">
@@ -37,7 +36,7 @@
                 app:autoSizeTextType="uniform" />
 
             <EditText
-                android:id="@+id/edittextName"
+                android:id="@+id/updateTextName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10sp"
@@ -117,7 +116,7 @@
             app:layout_constraintTop_toBottomOf="@id/row_1">
 
             <EditText
-                android:id="@+id/edittextCals"
+                android:id="@+id/updateTextCals"
                 android:layout_width="0sp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -126,7 +125,7 @@
                 android:textSize="24sp" />
 
             <EditText
-                android:id="@+id/edittextProteins"
+                android:id="@+id/updateTextProteins"
                 android:layout_width="0sp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -135,7 +134,7 @@
                 android:textSize="24sp" />
 
             <EditText
-                android:id="@+id/edittextFats"
+                android:id="@+id/updateTextFats"
                 android:layout_width="0sp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -144,7 +143,7 @@
                 android:textSize="24sp" />
 
             <EditText
-                android:id="@+id/edittextCarbs"
+                android:id="@+id/updateTextCarbs"
                 android:layout_width="0sp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -154,17 +153,67 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/row_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/row_2"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/row_2">
+
+            <TextView
+                android:id="@+id/textAmount"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Eaten today"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/updateTextAmount"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="0"
+                android:inputType="number"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
         <Button
-            android:id="@+id/add_btn"
+            android:id="@+id/update_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="72dp"
-            android:layout_marginTop="60dp"
             android:layout_marginEnd="72dp"
-            android:text="Add"
+            android:text="Update"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/row_2" />
+            app:layout_constraintTop_toTopOf="@+id/guideline4" />
+
+        <Button
+            android:id="@+id/deleteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="64dp"
+            android:text="Delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/update_btn"
+            app:layout_constraintVertical_bias="0.29" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="360dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

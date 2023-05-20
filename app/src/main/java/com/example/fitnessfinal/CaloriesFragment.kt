@@ -51,7 +51,7 @@ class CaloriesFragment : Fragment() {
             sharedViewModel.loadDataFromDB(this, fitnessViewModel)
             //sharedViewModel.loadDataFromDB(viewLifecycleOwner, userViewModel)
             updateJob = CoroutineScope(Dispatchers.Main).launch {
-                    delay(50)
+                    delay(100)
                     sharedViewModel.updateMacros()
                     dbNotLoaded = false
             }

@@ -15,100 +15,96 @@
         tools:context=".settings">
 
 
-        <EditText
-            android:id="@+id/edittext_weight"
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:ems="10"
-            android:hint="0"
-            android:importantForAutofill="no"
-            android:inputType="number"
-            android:minHeight="48dp"
-            android:text="@={viewModel.editTextWeight}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="21dp"
+            android:text="Age"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/edittext_age"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.165"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edittext_height"
-            app:layout_constraintVertical_bias="0.124"
-            tools:ignore="DuplicateSpeakableTextCheck" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/edittext_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
+            android:layout_marginTop="12dp"
             android:ems="10"
             android:hint="0"
             android:importantForAutofill="no"
             android:inputType="number"
             android:minHeight="48dp"
             android:text="@={viewModel.editTextAge}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.165"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.15" />
+            app:layout_constraintTop_toBottomOf="@id/textView2" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Height"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edittext_age" />
 
         <EditText
             android:id="@+id/edittext_height"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
+            android:layout_marginTop="12dp"
             android:ems="10"
             android:hint="0"
             android:importantForAutofill="no"
             android:inputType="number"
             android:minHeight="48dp"
             android:text="@={viewModel.editTextHeight}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.165"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edittext_age"
-            app:layout_constraintVertical_bias="0.139" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="151dp"
-            android:layout_marginTop="63dp"
-            android:layout_marginEnd="202dp"
-            android:layout_marginBottom="21dp"
-            android:text="Age"
-            app:layout_constraintBottom_toTopOf="@+id/edittext_age"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="155dp"
-            android:layout_marginBottom="25dp"
-            android:text="Height"
-            app:layout_constraintBottom_toTopOf="@+id/edittext_height"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/textView3" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="154dp"
-            android:layout_marginBottom="11dp"
+            android:layout_marginTop="12dp"
             android:text="Weight"
-            app:layout_constraintBottom_toTopOf="@+id/edittext_weight"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edittext_height" />
+
+        <EditText
+            android:id="@+id/edittext_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:ems="10"
+            android:hint="0"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:minHeight="48dp"
+            android:text="@={viewModel.editTextWeight}"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView4"
+            tools:ignore="DuplicateSpeakableTextCheck" />
 
         <RadioGroup
             android:id="@+id/gender_ask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="24dp"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edittext_weight">
@@ -117,13 +113,15 @@
                 android:id="@+id/radio_button_male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Male" />
+                android:text="Male"
+                android:textSize="18sp" />
 
             <RadioButton
                 android:id="@+id/radio_button_female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Female" />
+                android:text="Female"
+                android:textSize="18sp" />
 
         </RadioGroup>
 
@@ -131,31 +129,30 @@
             android:id="@+id/deficit_ask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="104dp"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edittext_weight">
+            app:layout_constraintTop_toBottomOf="@+id/gender_ask">
 
             <RadioButton
                 android:id="@+id/radio_button_deficit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Deficit"
-                android:backgroundTint="@color/white" />
+                android:textSize="18sp" />
 
             <RadioButton
                 android:id="@+id/radio_button_upkeep"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Upkeep"
-                android:backgroundTint="@color/white"/>
+                android:textSize="18sp" />
 
             <RadioButton
                 android:id="@+id/radio_button_bulk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bulk"
-                android:backgroundTint="@color/white"/>
+                android:textSize="18sp" />
 
         </RadioGroup>
 
@@ -163,12 +160,14 @@
             android:id="@+id/btn_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="72dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="100dp"
             android:text="Submit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/deficit_ask"
+            app:layout_constraintVertical_bias="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

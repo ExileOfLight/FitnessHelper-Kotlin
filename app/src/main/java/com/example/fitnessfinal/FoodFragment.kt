@@ -1,26 +1,23 @@
 package com.example.fitnessfinal
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.fitnessfinal.R
-import com.example.fitnessfinal.FitnessViewModel
 import com.example.fitnessfinal.databinding.FragmentFoodBinding
 import com.example.fitnessfinal.db.FitnessDataBase
 
 
 class FoodFragment : Fragment() {
     private lateinit var binding: FragmentFoodBinding
-    private val sharedViewModel: MainViewModel by activityViewModels()
+    //private val sharedViewModel: MainViewModel by activityViewModels()
     private lateinit var fitnessViewModel: FitnessViewModel
+
 
 
 
@@ -51,4 +48,5 @@ class FoodFragment : Fragment() {
             findNavController().navigate(R.id.action_foodFragment_to_addFragment)
         }
     }
+
 }

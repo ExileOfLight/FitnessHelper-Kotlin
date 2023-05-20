@@ -24,4 +24,7 @@ class FitnessViewModel(private val dao: FitnessDao):ViewModel() {
     fun deleteMeal(meal: Meal)=viewModelScope.launch {
         dao.deleteMeal(meal)
     }
+    fun deleteMealById(id: Long)=viewModelScope.launch {
+        dao.deleteMealById(id)
+    }
 }

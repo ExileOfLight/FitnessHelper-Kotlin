@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.round
 
 
-class MainViewModel() : ViewModel() {
+class MainViewModel : ViewModel() {
 
 
     //TODO: Make defaults (using Room)
@@ -23,7 +23,7 @@ class MainViewModel() : ViewModel() {
         _isMale.value = isMale
     }
 
-    private val _deficitOption = MutableLiveData<Double>(1000.0)
+    private val _deficitOption = MutableLiveData<Double>(0.0)
     val deficitOption: LiveData<Double>
         get() = _deficitOption
     fun setDeficit(deficit: Double){
@@ -33,19 +33,14 @@ class MainViewModel() : ViewModel() {
 
 
 
-    //Update from database
-    private val _showProteins = MutableLiveData<String>("1")
-    val showProteins: LiveData<String> = _showProteins
-    private val _showFats = MutableLiveData<String>("2")
-    val showFats: LiveData<String> = _showFats
-    private val _showCarbs = MutableLiveData<String>("3")
-    val showCarbs: LiveData<String> = _showCarbs
-    private val _showCals = MutableLiveData<String>("4")
-    val showCals: LiveData<String> = _showCals
+    //Update from safe args (data base parse)
+    val currentProteins = MutableLiveData<String>("0")
+    val currentFats = MutableLiveData<String>("0")
+    val currentCarbs = MutableLiveData<String>("0")
+    val currentCals = MutableLiveData<String>("0")
     val macros = MutableLiveData<Array<String>>(arrayOf("0","0","0","0"))
 
-    fun updateMacros():Unit{
-        Log.e("DEBUG", "UPDATED")
+    fun updateMacros(){
         val newMacros = calculate_macros(editTextAge.value!!.toInt(),
             editTextHeight.value!!.toInt(),
             editTextWeight.value!!.toInt(),

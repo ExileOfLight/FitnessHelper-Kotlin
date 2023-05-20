@@ -16,10 +16,10 @@
         tools:layout="@layout/fragment_food" >
         <action
             android:id="@+id/action_foodFragment_to_addFragment"
-            app:destination="@id/menu_item_add_food" />
-<!--        <action-->
-<!--            android:id="@+id/action_listFragment_to_updateFragment"-->
-<!--            app:destination="@id/updateFragment" />-->
+            app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/action_foodFragment_to_updateFragment"
+            app:destination="@id/deleteBtn" />
     </fragment>
     <fragment
         android:id="@+id/menu_item_settings"
@@ -27,14 +27,27 @@
         android:label="Settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
-        android:id="@+id/menu_item_add_food"
-        android:name="com.example.fitnessfinal.fragments.add.AddFragment"
+        android:id="@+id/addFragment"
+        android:name="com.example.fitnessfinal.AddFragment"
         android:label="Add food"
         tools:layout="@layout/fragment_add">
     <action
         android:id="@+id/action_addFragment_to_foodFragment"
         app:destination="@id/menu_item_food" />
     </fragment>
+    <fragment
+        android:id="@+id/deleteBtn"
+        android:name="com.example.fitnessfinal.UpdateFragment"
+        android:label="Update food"
+        tools:layout="@layout/fragment_update">
+        <action
+            android:id="@+id/action_updateFragment_to_foodFragment"
+            app:destination="@id/menu_item_food" />
+        <argument
+            android:name="currentMeal"
+            app:argType="com.example.fitnessfinal.db.Meal" />
+    </fragment>
+
 
 
 </navigation>

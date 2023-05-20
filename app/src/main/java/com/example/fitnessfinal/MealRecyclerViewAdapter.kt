@@ -1,25 +1,39 @@
 package com.example.fitnessfinal
 
-import com.example.fitnessfinal.R
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fitnessfinal.databinding.ListItemBinding
 import com.example.fitnessfinal.db.Meal
 
-class MealRecyclerViewAdapter:RecyclerView.Adapter<MealViewHolder>()  {
+class MealRecyclerViewAdapter:RecyclerView.Adapter<MealRecyclerViewAdapter.MealViewHolder>()  {
 
     private var mealList = emptyList<Meal>()
+    private lateinit var binding: ListItemBinding
+    class MealViewHolder(binding: ListItemBinding): RecyclerView.ViewHolder(binding.root) {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val listItem = layoutInflater.inflate(R.layout.list_item,parent,false)
-        return MealViewHolder(listItem)
+        binding = DataBindingUtil.inflate(layoutInflater, R.layout.list_item, parent, false)
+        return MealViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
-        holder.bind(mealList[position])
+        val currentItem = mealList[position]
+        binding.apply {
+            tvName.text = currentItem.foodName
+            tvCals.text = currentItem.cals.toString()
+            tvProteins.text = currentItem.proteins.toString()
+            tvFats.text = currentItem.fats.toString()
+            tvCarbs.text = currentItem.carbs.toString()
+
+            rowItemLayout.setOnClickListener{ holder->
+                val action = FoodFragmentDirections.actionFoodFragmentToUpdateFragment(currentItem)
+                holder.findNavController().navigate(action)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -34,21 +48,3 @@ class MealRecyclerViewAdapter:RecyclerView.Adapter<MealViewHolder>()  {
 }
 
 
-class MealViewHolder(private val view: View):RecyclerView.ViewHolder(view){
-    fun bind(meal: Meal){
-        val nameTextView = view.findViewById<TextView>(R.id.tvName)
-        val calsTextView = view.findViewById<TextView>(R.id.tvCals)
-        val proteinsTextView = view.findViewById<TextView>(R.id.tvProteins)
-        val fatsTextView = view.findViewById<TextView>(R.id.tvFats)
-        val carbsTextView = view.findViewById<TextView>(R.id.tvCarbs)
-        nameTextView.text = meal.foodName.toString()
-        calsTextView.text = meal.cals.toString()
-        proteinsTextView.text = meal.proteins.toString()
-        fatsTextView.text = meal.fats.toString()
-        carbsTextView.text = meal.carbs.toString()
-
-//        view.setOnClickListener {
-//            clickListener(meal)
-//        }
-    }
-}

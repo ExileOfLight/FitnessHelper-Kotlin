@@ -26,7 +26,6 @@ class SettingsFragment : Fragment() {
     //private var current_user_id: Int = 0
     private var deficitData: Double = 0.0
     private var genderData: String = "Male"
-    private var radioobserverAvailable = true
 
 
 
