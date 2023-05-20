@@ -96,7 +96,7 @@ class UpdateFragment : Fragment() {
             lifecycleScope.launch {
                 fitnessViewModel.upsertMeal(meal)
             }
-            Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Successfully updated!", Toast.LENGTH_SHORT).show()
             val oldAmount = args.currentMeal.amount
             val newAmount = currentAmount.toDouble()
             var viewmodelCals = sharedViewModel.currentCals.value?.toDouble()!!

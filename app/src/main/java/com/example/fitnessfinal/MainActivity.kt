@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -30,10 +31,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedViewModel: MainViewModel
     private lateinit var fitnessViewModel: FitnessViewModel
-    //private lateinit var loadingJob: Job
     lateinit var currentDataManager: CurrentDataManager
+    private lateinit var navController: NavController
 
-    var curDate = Calendar.getInstance()
+    var curDate: Calendar = Calendar.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
@@ -66,7 +67,14 @@ class MainActivity : AppCompatActivity() {
 
 
         observeDataStore()
-        sharedViewModel.loadDataFromDB(this@MainActivity, fitnessViewModel)
+        sharedViewModel.loadDataFromDB(this, fitnessViewModel)
+        sharedViewModel.macros.observe(this){
+            if (it[0]=="0"){
+                binding.bottomNavigation.visibility = View.GONE
+            }
+            else binding.bottomNavigation.visibility = View.VISIBLE
+
+        }
 
 
 
@@ -96,6 +104,7 @@ class MainActivity : AppCompatActivity() {
 //    }
     override fun onResume() {
         super.onResume()
+
         object : DateChangedBroadcastReceiver() {
             override fun onDateChanged(previousDate: Calendar, newDate: Calendar) {
                 Log.d("AppLog", "MainActivity: ${DateChangedBroadcastReceiver.toString(previousDate)} -> ${DateChangedBroadcastReceiver.toString(newDate)}")

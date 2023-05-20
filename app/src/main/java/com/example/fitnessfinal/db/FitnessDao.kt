@@ -25,5 +25,4 @@ interface FitnessDao {
 
     @Query("SELECT * FROM meal_dt")
     fun getAllMeals(): LiveData<List<Meal>>
-
 }

@@ -130,7 +130,7 @@ class SettingsFragment : Fragment() {
                     sharedPrefs.edit().putBoolean("isFirstRunKey",false).commit()
                     findNavController().navigateUp()
                 }
-                //Toast.makeText(requireContext(), "$notFirstStart", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Profile updated", Toast.LENGTH_LONG).show()
             }else{
                 Toast.makeText(requireContext(), "Please fill out the fields", Toast.LENGTH_LONG).show()
             }
