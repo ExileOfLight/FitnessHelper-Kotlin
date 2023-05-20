@@ -1,12 +1,18 @@
-package com.example.fitnessfinal
+package com.example.fitnessfinal.recyclerViewHandlers
 
+import android.graphics.Color
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fitnessfinal.fragmentsMain.FoodFragmentDirections
+import com.example.fitnessfinal.R
 import com.example.fitnessfinal.databinding.ListItemBinding
 import com.example.fitnessfinal.db.Meal
+
 
 class MealRecyclerViewAdapter:RecyclerView.Adapter<MealRecyclerViewAdapter.MealViewHolder>()  {
 
@@ -20,6 +26,7 @@ class MealRecyclerViewAdapter:RecyclerView.Adapter<MealRecyclerViewAdapter.MealV
         return MealViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
         val currentItem = mealList[position]
         binding.apply {
@@ -28,6 +35,9 @@ class MealRecyclerViewAdapter:RecyclerView.Adapter<MealRecyclerViewAdapter.MealV
             tvProteins.text = currentItem.proteins.toString()
             tvFats.text = currentItem.fats.toString()
             tvCarbs.text = currentItem.carbs.toString()
+            val colorOnActive = Color.CYAN
+            val color = if (currentItem.amount>0) colorOnActive else Color.WHITE
+            rowItemLayout.setCardBackgroundColor(color)
 
             rowItemLayout.setOnClickListener{ holder->
                 val action = FoodFragmentDirections.actionFoodFragmentToUpdateFragment(currentItem)

@@ -1,4 +1,4 @@
-package com.example.fitnessfinal
+package com.example.fitnessfinal.recyclerViewHandlers
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -10,18 +10,21 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.fitnessfinal.CurrentDataManager
+import com.example.fitnessfinal.FitnessViewModel
+import com.example.fitnessfinal.FitnessViewModelFactory
+import com.example.fitnessfinal.MainViewModel
+import com.example.fitnessfinal.R
 import com.example.fitnessfinal.databinding.FragmentUpdateBinding
 import com.example.fitnessfinal.db.FitnessDataBase
+import com.example.fitnessfinal.db.FitnessRepository
 import com.example.fitnessfinal.db.Meal
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -48,8 +51,8 @@ class UpdateFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val dao = FitnessDataBase.getInstance(requireContext()).userDao()
-        val factory = FitnessViewModelFactory(dao)
+        val dao = FitnessDataBase.getInstance(requireContext()).fitnessDao()
+        val factory = FitnessViewModelFactory(FitnessRepository(dao))
         fitnessViewModel = ViewModelProvider(this, factory)[FitnessViewModel::class.java]
         currentDataManager = CurrentDataManager(requireContext())
 

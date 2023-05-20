@@ -1,4 +1,4 @@
-package com.example.fitnessfinal
+package com.example.fitnessfinal.recyclerViewHandlers
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -12,8 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.fitnessfinal.FitnessViewModel
+import com.example.fitnessfinal.FitnessViewModelFactory
+import com.example.fitnessfinal.R
 import com.example.fitnessfinal.databinding.FragmentAddBinding
 import com.example.fitnessfinal.db.FitnessDataBase
+import com.example.fitnessfinal.db.FitnessRepository
 import com.example.fitnessfinal.db.Meal
 import kotlinx.coroutines.launch
 
@@ -34,8 +38,8 @@ class AddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val dao = FitnessDataBase.getInstance(requireContext()).userDao()
-        val factory = FitnessViewModelFactory(dao)
+        val dao = FitnessDataBase.getInstance(requireContext()).fitnessDao()
+        val factory = FitnessViewModelFactory(FitnessRepository(dao))
         fitnessViewModel = ViewModelProvider(this, factory)[FitnessViewModel::class.java]
         binding.addBtn.setOnClickListener(){
             insertDataToDatabase()

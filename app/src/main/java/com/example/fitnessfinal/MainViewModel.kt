@@ -1,20 +1,22 @@
 package com.example.fitnessfinal
 
 
+import android.app.Application
+import android.text.TextUtils
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.fitnessfinal.db.User
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.math.round
 
 
-class MainViewModel : ViewModel() {
+class MainViewModel (application: Application) : AndroidViewModel(application) {
 
 
-    //TODO: Make defaults (using Room)
-    val editTextAge = MutableLiveData<String>("0")
-    val editTextHeight = MutableLiveData<String>("0")
-    val editTextWeight = MutableLiveData<String>("0")
+    val editTextAge = MutableLiveData<String>("")
+    val editTextHeight = MutableLiveData<String>("")
+    val editTextWeight = MutableLiveData<String>("")
 
     private val _isMale = MutableLiveData<Boolean>(true)
     val isMale : LiveData<Boolean>
@@ -41,28 +43,32 @@ class MainViewModel : ViewModel() {
     val macros = MutableLiveData<Array<String>>(arrayOf("0","0","0","0"))
 
     fun updateMacros(){
-        val newMacros = calculate_macros(editTextAge.value!!.toInt(),
-            editTextHeight.value!!.toInt(),
-            editTextWeight.value!!.toInt(),
+        val newMacros = calculate_macros(editTextAge.value!!,
+            editTextHeight.value!!,
+            editTextWeight.value!!,
             isMale.value!!,1.0, arrayOf(0.25,0.3,0.45,deficitOption.value!!))
         macros.value = newMacros
     }
 
     fun calculate_macros(
-        age: Int,
-        height: Int,
-        weight: Int,
+        _age: String,
+        _height: String,
+        _weight: String,
         male: Boolean,
         stress_factor: Double,
         diet_plan: Array<Double>
     )
             : Array<String> {
+        Log.e("DEBUG","${TextUtils.isEmpty(_age)}")
+        val age = if (!_age.isNullOrEmpty()) _age.toInt() else 0
+        val height = if (!_weight.isNullOrEmpty()) _height.toInt() else 0
+        val weight = if (!_height.isNullOrEmpty()) _weight.toInt() else 0
+
         val protein_perct = diet_plan[0]
         val fat_perct = diet_plan[1]
         val carb_perct = diet_plan[2]
         val deficit = diet_plan[3]
-        var _calories: Double
-        _calories = if (male) {
+        var _calories: Double = if (male) {
             5 + (10 * weight) + (6.25 * height) - (5 * age)
         } else {
             -161 + (10 * weight) + (6.25 * height) - (5 * age)

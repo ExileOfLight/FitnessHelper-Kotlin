@@ -4,14 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/menu_item_calories">
+
     <fragment
         android:id="@+id/menu_item_calories"
-        android:name="com.example.fitnessfinal.CaloriesFragment"
+        android:name="com.example.fitnessfinal.fragmentsMain.CaloriesFragment"
         android:label="Calories"
-        tools:layout="@layout/fragment_calories" />
+        tools:layout="@layout/fragment_calories" >
+        <action
+            android:id="@+id/action_menu_item_calories_to_menu_item_settings"
+            app:destination="@id/menu_item_settings" />
+    </fragment>
     <fragment
         android:id="@+id/menu_item_food"
-        android:name="com.example.fitnessfinal.FoodFragment"
+        android:name="com.example.fitnessfinal.fragmentsMain.FoodFragment"
         android:label="FoodList"
         tools:layout="@layout/fragment_food" >
         <action
@@ -23,12 +28,16 @@
     </fragment>
     <fragment
         android:id="@+id/menu_item_settings"
-        android:name="com.example.fitnessfinal.SettingsFragment"
+        android:name="com.example.fitnessfinal.fragmentsMain.SettingsFragment"
         android:label="Settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_menu_item_settings_to_menu_item_calories"
+            app:destination="@id/menu_item_calories" />
+    </fragment>
     <fragment
         android:id="@+id/addFragment"
-        android:name="com.example.fitnessfinal.AddFragment"
+        android:name="com.example.fitnessfinal.recyclerViewHandlers.AddFragment"
         android:label="Add food"
         tools:layout="@layout/fragment_add">
     <action
@@ -37,7 +46,7 @@
     </fragment>
     <fragment
         android:id="@+id/deleteBtn"
-        android:name="com.example.fitnessfinal.UpdateFragment"
+        android:name="com.example.fitnessfinal.recyclerViewHandlers.UpdateFragment"
         android:label="Update food"
         tools:layout="@layout/fragment_update">
         <action

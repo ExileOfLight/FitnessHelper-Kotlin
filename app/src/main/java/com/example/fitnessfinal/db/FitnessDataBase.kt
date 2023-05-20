@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [User::class, Meal::class], version = 1, exportSchema = false)
 abstract class FitnessDataBase : RoomDatabase() {
-    abstract fun userDao():FitnessDao
+    abstract fun fitnessDao():FitnessDao
 
     companion object{
         @Volatile

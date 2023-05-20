@@ -1,4 +1,4 @@
-package com.example.fitnessfinal
+package com.example.fitnessfinal.fragmentsMain
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,8 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fitnessfinal.FitnessViewModel
+import com.example.fitnessfinal.FitnessViewModelFactory
+import com.example.fitnessfinal.R
+import com.example.fitnessfinal.recyclerViewHandlers.MealRecyclerViewAdapter
 import com.example.fitnessfinal.databinding.FragmentFoodBinding
 import com.example.fitnessfinal.db.FitnessDataBase
+import com.example.fitnessfinal.db.FitnessRepository
 
 
 class FoodFragment : Fragment() {
@@ -33,8 +38,8 @@ class FoodFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val dao = FitnessDataBase.getInstance(requireContext()).userDao()
-        val factory = FitnessViewModelFactory(dao)
+        val dao = FitnessDataBase.getInstance(requireContext()).fitnessDao()
+        val factory = FitnessViewModelFactory(FitnessRepository(dao))
         fitnessViewModel = ViewModelProvider(this, factory)[FitnessViewModel::class.java]
 
         val adapter = MealRecyclerViewAdapter()

@@ -1,15 +1,22 @@
-package com.example.fitnessfinal
+package com.example.fitnessfinal.fragmentsMain
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.fitnessfinal.FitnessViewModel
+import com.example.fitnessfinal.FitnessViewModelFactory
+import com.example.fitnessfinal.MainViewModel
+import com.example.fitnessfinal.R
 import com.example.fitnessfinal.databinding.FragmentCaloriesBinding
 import com.example.fitnessfinal.db.FitnessDataBase
+import com.example.fitnessfinal.db.FitnessRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -39,8 +46,8 @@ class CaloriesFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val dao = FitnessDataBase.getInstance(requireContext()).userDao()
-        val factory = FitnessViewModelFactory(dao)
+        val dao = FitnessDataBase.getInstance(requireContext()).fitnessDao()
+        val factory = FitnessViewModelFactory(FitnessRepository(dao))
         fitnessViewModel = ViewModelProvider(this, factory)[FitnessViewModel::class.java]
 
     }
@@ -48,23 +55,27 @@ class CaloriesFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         if (dbNotLoaded) {
-            sharedViewModel.loadDataFromDB(this, fitnessViewModel)
             //sharedViewModel.loadDataFromDB(viewLifecycleOwner, userViewModel)
             updateJob = CoroutineScope(Dispatchers.Main).launch {
-                    delay(100)
-                    sharedViewModel.updateMacros()
-                    dbNotLoaded = false
+                delay(100)
+                sharedViewModel.updateMacros()
+                dbNotLoaded = false
             }
 
         } else sharedViewModel.updateMacros()
-
-
-    }
-    override fun onDestroy() {
-        super.onDestroy()
-        if (updateJob.isActive) {
-            updateJob.cancel()
+        val sharedPrefs = requireActivity().getSharedPreferences("my_prefs", AppCompatActivity.MODE_PRIVATE)
+        var isFirstRun = sharedPrefs.getBoolean("isFirstRunKey", true)
+        if (isFirstRun){
+            findNavController().navigate(R.id.action_menu_item_calories_to_menu_item_settings)
         }
+
+
     }
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        if (updateJob.isActive) {
+//            updateJob.cancel()
+//        }
+//    }
 
 }

@@ -1,13 +1,19 @@
 package com.example.fitnessfinal
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import java.io.IOException
+
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "currentMacros")
 class CurrentDataManager(context: Context){
 
@@ -18,6 +24,7 @@ class CurrentDataManager(context: Context){
         val currentProteinsKey = doublePreferencesKey("CURRENT_PROTEINS_KEY")
         val currentFatsKey = doublePreferencesKey("CURRENT_FATS_KEY")
         val currentCarbsKey = doublePreferencesKey("CURRENT_CARBS_KEY")
+        val notFirstStart = booleanPreferencesKey("NOT_FIRST_START_KEY")
     }
 
     suspend fun storeCurrents(cals: Double,proteins: Double,fats: Double,carbs: Double){
@@ -28,6 +35,7 @@ class CurrentDataManager(context: Context){
             pref[currentCarbsKey] = carbs
         }
     }
+
     val currentCalsFlow: Flow<Double> = dataStore.data.map{ pref->
        pref[currentCalsKey] ?: 0.0
     }
@@ -40,5 +48,6 @@ class CurrentDataManager(context: Context){
     val currentCarbsFlow: Flow<Double> = dataStore.data.map{ pref->
         pref[currentCarbsKey] ?: 0.0
     }
+
 
 }
