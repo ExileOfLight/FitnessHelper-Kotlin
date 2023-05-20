@@ -91,25 +91,25 @@ class UpdateFragment : Fragment() {
                 proteins.toDouble(),
                 fats.toDouble(),
                 carbs.toDouble(),
-                currentAmount.toInt()
+                currentAmount.toDouble()
             )
             lifecycleScope.launch {
                 fitnessViewModel.upsertMeal(meal)
             }
             Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
             val oldAmount = args.currentMeal.amount
-            val newAmount = currentAmount.toInt()
+            val newAmount = currentAmount.toDouble()
             var viewmodelCals = sharedViewModel.currentCals.value?.toDouble()!!
             var viewmodelProteins = sharedViewModel.currentProteins.value?.toDouble()!!
             var viewmodelFats = sharedViewModel.currentFats.value?.toDouble()!!
             var viewmodelCarbs = sharedViewModel.currentCarbs.value?.toDouble()!!
-            if (oldAmount!=0) {
+            if (oldAmount!=0.0) {
                 viewmodelCals -= args.currentMeal.cals * oldAmount
                 viewmodelProteins -= args.currentMeal.proteins * oldAmount
                 viewmodelFats -= args.currentMeal.fats * oldAmount
                 viewmodelCarbs -= args.currentMeal.carbs * oldAmount
             }
-            if (newAmount!=0) {
+            if (newAmount!=0.0) {
                 viewmodelCals += cals.toDouble() * newAmount
                 viewmodelProteins += proteins.toDouble() * newAmount
                 viewmodelFats += fats.toDouble() * newAmount
@@ -140,7 +140,7 @@ class UpdateFragment : Fragment() {
         var viewmodelFats = sharedViewModel.currentFats.value?.toDouble()!!
         var viewmodelCarbs = sharedViewModel.currentCarbs.value?.toDouble()!!
         var amount = args.currentMeal.amount
-        if (amount!=0) {
+        if (amount!=0.0) {
             viewmodelCals -= args.currentMeal.cals * amount
             viewmodelProteins -= args.currentMeal.proteins * amount
             viewmodelFats -= args.currentMeal.fats * amount

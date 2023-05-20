@@ -65,7 +65,7 @@ class AddFragment : Fragment() {
                 proteins.toDouble(),
                 fats.toDouble(),
                 carbs.toDouble(),
-                0
+                0.0
             )
             lifecycleScope.launch {
                 fitnessViewModel.upsertMeal(meal)

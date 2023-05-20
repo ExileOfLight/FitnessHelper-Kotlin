@@ -15,5 +15,5 @@ data class Meal(
     val proteins: Double,
     val fats: Double,
     val carbs: Double,
-    val amount: Int
+    val amount: Double
 ): Parcelable

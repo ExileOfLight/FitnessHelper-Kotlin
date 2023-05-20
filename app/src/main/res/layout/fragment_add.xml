@@ -121,7 +121,7 @@
                 android:layout_width="0sp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="123.0"
+                android:hint="123"
                 android:inputType="numberDecimal"
                 android:textSize="24sp" />
 

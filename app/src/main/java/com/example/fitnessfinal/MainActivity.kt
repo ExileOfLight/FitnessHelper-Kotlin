@@ -2,6 +2,7 @@ package com.example.fitnessfinal
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.util.Calendar
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     //private lateinit var loadingJob: Job
     lateinit var currentDataManager: CurrentDataManager
 
-
+    var curDate = Calendar.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
@@ -90,6 +92,20 @@ class MainActivity : AppCompatActivity() {
 //            loadingJob.cancel()
 //        }
 //    }
-
-
+    override fun onResume() {
+        super.onResume()
+        object : DateChangedBroadcastReceiver() {
+            override fun onDateChanged(previousDate: Calendar, newDate: Calendar) {
+                Log.d("AppLog", "MainActivity: ${DateChangedBroadcastReceiver.toString(previousDate)} -> ${DateChangedBroadcastReceiver.toString(newDate)}")
+                curDate = newDate.clone() as Calendar
+                //handle date change
+//                val everyMeal = fitnessViewModel.meals.value
+//                everyMeal?.forEach{ meal ->
+//                    val _meal = meal.copy()
+//                    _meal.amount = 0.0
+//                    fitnessViewModel.upsertMeal()
+//                }
+            }
+        }.registerOnResume(this, curDate)
+    }
 }
