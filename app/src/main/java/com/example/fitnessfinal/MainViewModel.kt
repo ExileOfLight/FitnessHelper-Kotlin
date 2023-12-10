@@ -50,7 +50,7 @@ class MainViewModel (application: Application) : AndroidViewModel(application) {
         macros.value = newMacros
     }
 
-    fun calculate_macros(
+    private fun calculate_macros( // Should be in a separate model (calculations) file
         _age: String,
         _height: String,
         _weight: String,
